@@ -17,7 +17,7 @@ public class PersonDTO {
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Invalid email format")
     private String email;
-    @NotBlank(message = "Cellphone cannot be blank")
+    @NotBlank(message = "cellphone cannot be blank")
     private String cellphone;
     @NotNull(message = "dateOfBirthh cannot be null")
     @Past(message = "dateOfBirth must be in the past")

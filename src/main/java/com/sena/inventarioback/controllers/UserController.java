@@ -1,8 +1,8 @@
 package com.sena.inventarioback.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
+import javax.security.auth.login.AccountNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sena.inventarioback.dto.PersonDTO;
@@ -20,20 +21,25 @@ import com.sena.inventarioback.interfaces.IPersonService;
 import com.sena.inventarioback.models.Person;
 import com.sena.inventarioback.utils.response.DefaultResponse;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 
-//Api-RestFul
+//API-RestFul
 @RestController
 @Slf4j
-@RequestMapping("/user")
+@RequestMapping("/people")
+@AllArgsConstructor
 public class UserController {
 
-	@Autowired
-	IPersonService iPersonService;
+	private final IPersonService iPersonService;
 
-	@GetMapping
-	public ResponseEntity<DefaultResponse<Person>> findAll() {
-		return iPersonService.findAll();
+	@GetMapping("")
+	public ResponseEntity<DefaultResponse<Person>> findAll(
+			@RequestParam(name = "page", defaultValue = "0") Integer page,
+			@RequestParam(name = "size", defaultValue = "500") Integer size,
+			@RequestParam(name = "orderBy", defaultValue = "id") String orderBy) {
+		return iPersonService.findAllPaginationSizePageOrderBy(size, page, orderBy);
 	}
 
 	// EndPoint
@@ -47,21 +53,44 @@ public class UserController {
 	public List<Person> findByDocumentTypeId(@PathVariable Integer documentTypeId) {
 		return iPersonService.findByDocumentTypeId(documentTypeId);
 	}
-    @PostMapping("")
-    public ResponseEntity<DefaultResponse<Person>> createPerson(@Validated @RequestBody PersonDTO personDTO,
-                                                                    BindingResult bindingResult) {
-    	log.info("user which is performing the operation {}", "not implement yet");
-        return iPersonService.save(personDTO, bindingResult, Person.class);
-    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DefaultResponse<Person>> updatePerson(@PathVariable Integer id,
-                                                                    @Validated @RequestBody PersonDTO personDTO,
-                                                                    BindingResult bindingResult) {
-    	log.info("user which is performing the operation {}", "not implement yet");
-        return iPersonService.update(id, personDTO, bindingResult, Person.class);
-    }
+	@PostMapping("")
+	public ResponseEntity<DefaultResponse<Person>> createPerson(@Validated @RequestBody PersonDTO personDTO,
+			BindingResult bindingResult) {
+		log.info("user which is performing the operation {}", "not implement yet");
+		return iPersonService.save(personDTO, bindingResult, Person.class);
+	}
 
+	@PutMapping("/{id}")
+	public ResponseEntity<DefaultResponse<Person>> updatePerson(@PathVariable Integer id,
+			@Validated @RequestBody PersonDTO personDTO, BindingResult bindingResult) {
+		log.info("user which is performing the operation {}", "not implement yet");
+		return iPersonService.update(id, personDTO, bindingResult, Person.class);
+	}
+
+	// EndPoint
+	@GetMapping("/login/username/{username}/password/{password}")
+	public Boolean findByDocumentTypeId(@PathVariable String username, @PathVariable String password)
+			throws AccountNotFoundException {
+		return iPersonService.login(username, password);
+	}
 	
+	
+	
+
+	// EndPoint
+	@GetMapping("integration")
+	public List<String> testWebClient() {
+		log.info("starting transaction");
+		return iPersonService.onConcurrentEndPoint();
+	}
+	
+
+	// EndPoint
+	@GetMapping("integration2")
+	public Flux<String> testWebClient2() {
+		log.info("starting transaction");
+		return iPersonService.onConcurrentEndPoint2();
+	}
 
 }

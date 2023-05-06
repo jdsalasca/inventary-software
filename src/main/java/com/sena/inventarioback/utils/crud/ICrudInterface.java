@@ -3,6 +3,7 @@ package com.sena.inventarioback.utils.crud;
 import java.io.Serializable;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -10,28 +11,25 @@ import org.springframework.validation.BindingResult;
 import com.sena.inventarioback.utils.response.DefaultResponse;
 
 /**
-
 This interface defines a CRUD (Create, Read, Update, Delete) contract for generic entities using Spring Data JPA.
-
 @param <T> the type of the entity
-
 @param <K> the type of the DTO (Data Transfer Object) used to create or update the entity
-
 @param <ID> the type of the entity identifier
-
 @param <L> the type of the Spring Data JPA repository interface used to interact with the database
 
 @author jdsalasca
 */
 public interface ICrudInterface<T, K , ID extends Serializable, L extends JpaRepository<T, ID>>  {
-
-
 	/**
-
     Retrieves all the entities of type T.
     @return a ResponseEntity with a DefaultResponse containing the list of entities, or an error message if an exception occurs
     */
    ResponseEntity<DefaultResponse<T>> findAll();
+	/**
+   Retrieves all the entities of type T using pagination.
+   @return a ResponseEntity with a DefaultResponse containing the list of entities, or an error message if an exception occurs
+   */
+  ResponseEntity<DefaultResponse<T>> findAllPaginationSizePageOrderBy(Integer size, Integer page, String orderBy);
     /**
 
     Retrieves the entity of type T identified by the given ID.
@@ -64,6 +62,7 @@ public interface ICrudInterface<T, K , ID extends Serializable, L extends JpaRep
     @param id the identifier of the entity being deleted
     */
     void deleteById(ID id);
+	Page<T> findAllPaginationSizePageOptionTwo(Integer size, Integer page);
    
     
 }
