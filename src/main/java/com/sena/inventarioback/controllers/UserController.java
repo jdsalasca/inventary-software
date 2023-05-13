@@ -20,6 +20,7 @@ import com.sena.inventarioback.dto.PersonDTO;
 import com.sena.inventarioback.interfaces.IPersonService;
 import com.sena.inventarioback.models.Person;
 import com.sena.inventarioback.utils.response.DefaultResponse;
+import com.sena.inventarioback.utils.response.ObjectResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +36,21 @@ public class UserController {
 	private final IPersonService iPersonService;
 
 	@GetMapping("")
-	public ResponseEntity<DefaultResponse<Person>> findAll(
+	public ResponseEntity<DefaultResponse<Person>> findAllPagination(
 			@RequestParam(name = "page", defaultValue = "0") Integer page,
 			@RequestParam(name = "size", defaultValue = "500") Integer size,
 			@RequestParam(name = "orderBy", defaultValue = "id") String orderBy) {
 		return iPersonService.findAllPaginationSizePageOrderBy(size, page, orderBy);
+	}
+
+	@GetMapping("general")
+	public ResponseEntity<DefaultResponse<Person>> findAll() {
+		return iPersonService.findAll();
+	}
+
+	@GetMapping("general2")
+	public ResponseEntity<com.jdsalasca.defaultresponse.DefaultResponse<Person>> findAll2() {
+		return iPersonService.test();
 	}
 
 	// EndPoint

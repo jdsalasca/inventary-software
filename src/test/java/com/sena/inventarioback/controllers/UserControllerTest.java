@@ -1,6 +1,4 @@
 package com.sena.inventarioback.controllers;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -11,10 +9,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,9 +31,7 @@ import com.sena.inventarioback.models.Person;
 import com.sena.inventarioback.utils.response.DefaultResponse;
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
-
     private MockMvc mockMvc;
-
     @Mock
     private IPersonService iPersonService;
 

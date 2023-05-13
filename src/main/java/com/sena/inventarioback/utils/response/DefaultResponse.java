@@ -20,15 +20,14 @@ import lombok.*;
 @NoArgsConstructor
 public class DefaultResponse<T> {
 
-	private List<T> data = Collections.emptyList();
-	private HttpStatus status = HttpStatus.I_AM_A_TEAPOT;
-	private List<Message> message;
-	private List<Error> error;
-	private MESSAGETYPES messageType = MESSAGETYPES.INFO;
-	private DATATYPE dataType = DATATYPE.LIST;
-	private Page<T> pageableInformation;
+	protected List<T> data = Collections.emptyList();
+	protected HttpStatus status = HttpStatus.I_AM_A_TEAPOT;
+	protected List<Message> message = Collections.emptyList();
+	protected List<Error> error  = Collections.emptyList();
+	protected MESSAGETYPES messageType = MESSAGETYPES.INFO;
+	protected DATATYPE dataType = DATATYPE.LIST;
+	protected Page<T> pageableInformation;
 
-	
 	public DefaultResponse(List<T> data, HttpStatus status, List<Message> message, List<Error> error,
 			MESSAGETYPES messageType) {
 		super();
@@ -182,6 +181,7 @@ public class DefaultResponse<T> {
 		return new ResponseEntity<>(messageResult, messageResult.catchHttpStatus());
 
 	}
+
 	public static <T> ResponseEntity<DefaultResponse<T>> onThrow200Response(List<T> data) {
 		DefaultResponse<T> messageResult = new DefaultResponse<>();
 		messageResult.setData(data);
@@ -235,7 +235,7 @@ public class DefaultResponse<T> {
 		DefaultResponse<T> messageResult = new DefaultResponse<>();
 		messageResult.setData(data);
 		messageResult.setStatus(HttpStatus.OK);
-		messageResult.setDataType(DATATYPE.LIST);
+		messageResult.setDataType(DATATYPE.OBJECT);
 		messageResult.setMessageType(MESSAGETYPES.SUCCESS);
 		messageResult.setMessage(DEFAULTMESSAGES.SUCCESS_MESSAGE.value());
 		return new ResponseEntity<>(messageResult, messageResult.catchHttpStatus());
@@ -250,6 +250,20 @@ public class DefaultResponse<T> {
 
 	public String getMessageType() {
 		return messageType.value();
+	}    
+
+	public T getData() {
+
+		if (this.dataType.equals(DATATYPE.OBJECT)) {
+			return this.data.get(0);
+		} else {
+			return castToListOfT();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private <U> U castToListOfT() {
+		return (U) this.data;
 	}
 
 	public void setErrorStringList(List<String> errorsList) {
