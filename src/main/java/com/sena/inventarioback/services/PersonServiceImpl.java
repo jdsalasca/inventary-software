@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.security.auth.login.AccountNotFoundException;
@@ -87,8 +88,10 @@ public class PersonServiceImpl extends CrudServiceImpl<Person, PersonDTO, Intege
 	public ResponseEntity<DefaultResponse<Person>> findById(Integer id) {
 		Person person = personRepository.findById(id).orElse(new Person());
 		log.warn("Siu");
-		// Collections.singletonLis
-
+		Predicate<Person> isOld = personL -> personL.getDocumentNumber().equals(3l);
+		if (isOld.test(person)) {
+			return DefaultResponse.onThrow200Response(Collections.singletonList(person));
+		}
 		return DefaultResponse.onThrow200Response(Collections.singletonList(person));
 	}
 

@@ -114,7 +114,6 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 			T entity = repository.findById(id)
 					.orElseThrow(() -> new EntityNotFoundException(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value()));
 			modelMapper.map(dto, entity);
-
 			return DefaultResponse.onThrow200Response(List.of(repository.save(entity)));
 		} catch (DataIntegrityViolationException e) {
 			log.info("error creating entity for {} because of {}", entityClass, e.getLocalizedMessage());
@@ -122,16 +121,16 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 		} catch (ConstraintViolationException constraintViolationException) {
 			return DefaultResponse
 					.onThrow400ResponseTypeError(List.of(constraintViolationException.getMessage()).toString());
-
 		} catch (EntityNotFoundException e) {
 			return DefaultResponse.onThrow400ResponseTypeInfo(e.getLocalizedMessage());
-
 		} catch (Exception e) {
 			log.info("IMPORTANT unhandle exception {}", e.getLocalizedMessage());
 			log.info("error creating entity for {} because of " + e.getLocalizedMessage(), entityClass);
 			return DefaultResponse.onThrow400ResponseTypeInfo(e.getLocalizedMessage());
 		}
 	}
+	
+	
 
 	/**
 	 * 

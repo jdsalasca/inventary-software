@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -62,6 +63,10 @@ public class UserController {
 	// EndPoint
 	@GetMapping("/document-type/{documentTypeId}")
 	public List<Person> findByDocumentTypeId(@PathVariable Integer documentTypeId) {
+		return iPersonService.findByDocumentTypeId(documentTypeId);
+	}
+	@PatchMapping
+	public List<Person> pathEntity(@PathVariable Integer documentTypeId) {
 		return iPersonService.findByDocumentTypeId(documentTypeId);
 	}
 
