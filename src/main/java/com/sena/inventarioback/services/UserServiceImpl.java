@@ -20,11 +20,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import com.sena.inventarioback.dto.PersonDTO;
+import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.integrations.IPeopleIntegration;
-import com.sena.inventarioback.interfaces.IPersonService;
-import com.sena.inventarioback.models.Person;
-import com.sena.inventarioback.repositories.PersonRepository;
+import com.sena.inventarioback.interfaces.IUserService;
+import com.sena.inventarioback.models.User;
+import com.sena.inventarioback.repositories.UserRepository;
 import com.sena.inventarioback.utils.crud.CrudServiceImpl;
 import com.sena.inventarioback.utils.response.DefaultResponse;
 import com.sena.inventarioback.utils.response.DefaultResponse.MESSAGETYPES;
@@ -37,16 +37,16 @@ import reactor.core.publisher.Mono;
 @Service
 @Component
 @Slf4j
-public class PersonServiceImpl extends CrudServiceImpl<Person, PersonDTO, Integer, PersonRepository>
-		implements IPersonService {
+public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, UserRepository>
+		implements IUserService {
 	@Autowired
-	private PersonRepository personRepository;
+	private UserRepository userRepository;
 	@Autowired
 	private IPeopleIntegration iPeopleIntegration;
 
 	@Override
-	public ResponseEntity<DefaultResponse<Person>> save(PersonDTO dto, BindingResult bindingResult,
-			Class<Person> entityClass) {
+	public ResponseEntity<DefaultResponse<User>> save(UserDTO dto, BindingResult bindingResult,
+			Class<User> entityClass) {
 		dto.setCreatedAt(LocalDateTime.now());
 		dto.setUpdatedAt(LocalDateTime.now());
 		dto.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
@@ -54,8 +54,8 @@ public class PersonServiceImpl extends CrudServiceImpl<Person, PersonDTO, Intege
 	}
 
 	@Override
-	public ResponseEntity<DefaultResponse<Person>> update(Integer id, PersonDTO dto, BindingResult bindigResult,
-			Class<Person> entityClass) {
+	public ResponseEntity<DefaultResponse<User>> update(Integer id, UserDTO dto, BindingResult bindigResult,
+			Class<User> entityClass) {
 		dto.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
 		dto.setUpdatedAt(LocalDateTime.now());
 		dto.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
@@ -64,7 +64,7 @@ public class PersonServiceImpl extends CrudServiceImpl<Person, PersonDTO, Intege
 
 	@Override
 	public Boolean login(String userName, String password) throws AccountNotFoundException {
-		Optional<Person> person = personRepository.findByUserName(userName);
+		Optional<User> person = userRepository.findByUserName(userName);
 		if (person.isEmpty()) {
 			throw new AccountNotFoundException("User Not found");
 		}
@@ -72,23 +72,23 @@ public class PersonServiceImpl extends CrudServiceImpl<Person, PersonDTO, Intege
 	}
 
 	@Override
-	public List<Person> findByDocumentTypeId(Integer documentTypeId) {
-		return personRepository.findAllByDocumentType(documentTypeId);
+	public List<User> findByDocumentTypeId(Integer documentTypeId) {
+		return userRepository.findAllByDocumentType(documentTypeId);
 	}
 
 	@Override
 	@Cacheable("allpeople")
-	public ResponseEntity<DefaultResponse<Person>> findAll() {
+	public ResponseEntity<DefaultResponse<User>> findAll() {
 		log.info("consumig real service");
 		//return super.findAll();
 		return super.findAll();
 	}
 
 	@Override
-	public ResponseEntity<DefaultResponse<Person>> findById(Integer id) {
-		Person person = personRepository.findById(id).orElse(new Person());
+	public ResponseEntity<DefaultResponse<User>> findById(Integer id) {
+		User person = userRepository.findById(id).orElse(new User());
 		log.warn("Siu");
-		Predicate<Person> isOld = personL -> personL.getDocumentNumber().equals(3l);
+		Predicate<User> isOld = personL -> personL.getDocumentNumber().equals(3l);
 		if (isOld.test(person)) {
 			return DefaultResponse.onThrow200Response(Collections.singletonList(person));
 		}
@@ -108,7 +108,7 @@ public class PersonServiceImpl extends CrudServiceImpl<Person, PersonDTO, Intege
 	}
 
 	@Override
-	public ResponseEntity<DefaultResponse<Person>> test() {
+	public ResponseEntity<DefaultResponse<User>> test() {
 		// TODO Auto-generated method stub
 		return DefaultResponse.onThrow200Response(Collections.emptyList());
 	}

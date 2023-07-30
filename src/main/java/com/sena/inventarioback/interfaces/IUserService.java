@@ -6,20 +6,20 @@ import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.http.ResponseEntity;
 
-import com.sena.inventarioback.dto.PersonDTO;
-import com.sena.inventarioback.models.Person;
-import com.sena.inventarioback.repositories.PersonRepository;
+import com.sena.inventarioback.dto.UserDTO;
+import com.sena.inventarioback.models.User;
+import com.sena.inventarioback.repositories.UserRepository;
 import com.sena.inventarioback.utils.crud.ICrudInterface;
 import com.sena.inventarioback.utils.response.DefaultResponse;
 import com.sena.inventarioback.utils.response.ObjectResponse;
 
 import reactor.core.publisher.Flux;
 
-public interface IPersonService extends ICrudInterface<Person, PersonDTO,  Integer, PersonRepository> {
+public interface IUserService extends ICrudInterface<User, UserDTO,  Integer, UserRepository> {
 	
-	List<Person> findByDocumentTypeId(Integer documentTypeId);
+	List<User> findByDocumentTypeId(Integer documentTypeId);
 
-	ResponseEntity<DefaultResponse<Person>> test();
+	ResponseEntity<DefaultResponse<User>> test();
 	
 	Boolean login(String userName, String password) throws AccountNotFoundException;
 

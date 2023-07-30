@@ -17,7 +17,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-import com.sena.inventarioback.models.Person;
+import com.sena.inventarioback.models.User;
 import com.sena.inventarioback.utils.response.DefaultResponse;
 import com.sena.inventarioback.utils.response.DefaultResponse.DEFAULTMESSAGES;
 import com.sena.inventarioback.utils.response.ObjectResponse;

@@ -9,7 +9,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonDTO {
+public class UserDTO {
     @NotBlank(message = "First name cannot be blank")
     private String firstName;
     @NotBlank(message = "Last name cannot be blank")
