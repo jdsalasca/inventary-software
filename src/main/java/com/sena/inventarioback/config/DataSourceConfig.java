@@ -12,9 +12,8 @@ import jakarta.annotation.Priority;
 @Configuration
 @Priority(value = 1)
 public class DataSourceConfig {
-
+//
 	private static final String URL = System.getenv("DATASOURCE_URL");
-	private static final String DRIVERCLASSNAME = System.getenv("DATASOURCE_DRIVER_CLASS_NAME");
 	private static final String USERNAME = System.getenv("DATASOURCE_USERNAME");
 	private static final String PASSWORD = System.getenv("DATASOURCE_PASSWORD");
 
@@ -23,7 +22,7 @@ public class DataSourceConfig {
 	@Bean
 	DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(DRIVERCLASSNAME);
+		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
 		dataSource.setUrl(URL);
 		dataSource.setUsername(USERNAME);
 		dataSource.setPassword(PASSWORD);
