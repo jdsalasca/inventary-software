@@ -64,11 +64,25 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 
 	@Override
 	public Boolean login(String userName, String password) throws AccountNotFoundException {
-		Optional<User> person = userRepository.findByUserName(userName);
-		if (person.isEmpty()) {
-			throw new AccountNotFoundException("User Not found");
-		}
-		return BCrypt.checkpw(password, person.get().getPassword());
+	    Optional<User> userOptional = userRepository.findByUserName(userName);
+	    if (userOptional.isEmpty()) {
+	        throw new AccountNotFoundException("User Not found");
+	    }
+
+	    User user = userOptional.get();
+	    String storedPassword = user.getPassword();
+
+	    if (isBCryptEncoded(storedPassword)) {
+	        return BCrypt.checkpw(password, storedPassword);
+	    } else {
+	        // Assuming storedPassword is a raw (plaintext) string
+	        return storedPassword.equals(password);
+	    }
+	}
+	
+	// Helper method to check if the password is BCrypt encoded
+	private boolean isBCryptEncoded(String password) {
+	    return password.startsWith("$2a$");
 	}
 
 	@Override

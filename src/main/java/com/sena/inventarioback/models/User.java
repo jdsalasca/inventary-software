@@ -47,7 +47,7 @@ public class User {
 	@Column(name = "document_number", nullable = false)
 	private String documentNumber;
 	@Column(name = "password", nullable = false)
-	@JsonIgnore
+	//@JsonIgnore
 	private String password;
 	@Column(name = "user_name", nullable = false)
 	private String userName;
