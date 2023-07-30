@@ -1,14 +1,3 @@
-# Disable BuildKit
-# Note: The syntax may differ if you're using older versions of Docker (< 19.03).
-# For versions >= 19.03, this syntax should work.
-# See the Docker documentation for the correct syntax in older versions.
-# This line must be before any other instructions, including the FROM instruction.
-# Also, keep in mind that this line only affects the build process and not the runtime behavior.
-# If you wish to disable BuildKit during runtime, you'd have to do it externally using the command mentioned in the previous response.
-# However, disabling BuildKit during runtime is not recommended unless you have specific reasons to do so.
-# For build-time, this line should suffice.
-ENV DOCKER_BUILDKIT=0
-
 
 # Stage 1: Build the application
 FROM amazoncorretto:17 AS build
