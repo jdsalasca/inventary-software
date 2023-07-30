@@ -19,7 +19,7 @@ public interface IPersonService extends ICrudInterface<Person, PersonDTO,  Integ
 	
 	List<Person> findByDocumentTypeId(Integer documentTypeId);
 
-	ResponseEntity<com.jdsalasca.defaultresponse.DefaultResponse<Person>> test();
+	ResponseEntity<DefaultResponse<Person>> test();
 	
 	Boolean login(String userName, String password) throws AccountNotFoundException;
 

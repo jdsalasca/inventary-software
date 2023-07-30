@@ -50,7 +50,7 @@ public class UserController {
 	}
 
 	@GetMapping("general2")
-	public ResponseEntity<com.jdsalasca.defaultresponse.DefaultResponse<Person>> findAll2() {
+	public ResponseEntity<DefaultResponse<Person>> findAll2() {
 		return iPersonService.test();
 	}
 

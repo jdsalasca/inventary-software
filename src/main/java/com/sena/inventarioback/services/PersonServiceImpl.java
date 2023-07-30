@@ -108,9 +108,9 @@ public class PersonServiceImpl extends CrudServiceImpl<Person, PersonDTO, Intege
 	}
 
 	@Override
-	public ResponseEntity<com.jdsalasca.defaultresponse.DefaultResponse<Person>> test() {
+	public ResponseEntity<DefaultResponse<Person>> test() {
 		// TODO Auto-generated method stub
-		return com.jdsalasca.defaultresponse.DefaultResponse.onThrow200Response(Collections.emptyList());
+		return DefaultResponse.onThrow200Response(Collections.emptyList());
 	}
 
 }
