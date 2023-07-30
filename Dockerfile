@@ -9,9 +9,8 @@ RUN ./mvnw package    # Build the application using Maven Wrapper
 FROM amazoncorretto:17 AS runtime
 WORKDIR /app
 # Replace 'inventario-back-0.0.1.jar' with the correct JAR file name
-# Use 'RUN' instead of 'COPY' to copy the JAR file from the build stage
-RUN mv /app/target/inventario-back*.jar app.jar
-
+COPY --from=build /app/target/inventario-back*.jar app.jar
+#COPY --from=build /app/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app/app.jar"]
 
 # Expose port 8080
