@@ -30,7 +30,7 @@ import reactor.core.publisher.Flux;
 //API-RestFul
 @RestController
 @Slf4j
-@RequestMapping("/people")
+@RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
 
