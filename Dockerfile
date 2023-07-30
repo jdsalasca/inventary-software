@@ -1,10 +1,9 @@
-
 # Stage 1: Build the application
-FROM amazoncorretto:17 AS build
+FROM maven:3.8.3-openjdk-17 AS build
 WORKDIR /app
 COPY . .
-RUN ./mvnw package
-
+RUN chmod +x mvnw     # Make sure the mvnw script is executable
+RUN ./mvnw package    # Build the application using Maven Wrapper
 
 # Stage 2: Create the final runtime image
 FROM amazoncorretto:17 AS runtime
