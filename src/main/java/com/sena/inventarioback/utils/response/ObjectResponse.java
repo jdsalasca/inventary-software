@@ -23,6 +23,6 @@ public class ObjectResponse<T> extends DefaultResponse<T> {
     public void setObject(T object) {
         this.object = object;
     }
-    
-    
+
+
 }

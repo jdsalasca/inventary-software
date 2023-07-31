@@ -27,7 +27,7 @@ public class ErrorHandlerController {
 	@ResponseBody
 	public ResponseEntity<DefaultResponse<String>> handlePropertyReferenceException(PropertyReferenceException ex) {
 		log.error("Invalid property reference.", ex);
-		String message = String.format("Invalid property reference: %s", ex.getMessage());
+		var message = String.format("Invalid property reference: %s", ex.getMessage());
 		return DefaultResponse.onThrow500ErrorResponse(message);
 
 	}

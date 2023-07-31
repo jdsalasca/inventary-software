@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,10 +16,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-import com.sena.inventarioback.models.User;
 import com.sena.inventarioback.utils.response.DefaultResponse;
 import com.sena.inventarioback.utils.response.DefaultResponse.DEFAULTMESSAGES;
-import com.sena.inventarioback.utils.response.ObjectResponse;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -43,9 +40,9 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 	@Autowired
 	private ModelMapper modelMapper;
 	/**
-	 * 
+	 *
 	 * Returns all entities of the given type.
-	 * 
+	 *
 	 * @return a {@link org.springframework.http.ResponseEntity} containing the
 	 *         response of the request. The response will be a
 	 *         {@link com.jdsk.people.utils.response.DefaultResponse} with status
@@ -55,7 +52,7 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 	 */
 	@Override
 	public ResponseEntity<DefaultResponse<T>> findAll() {
-		List<T> entities = repository.findAll();
+		var entities = repository.findAll();
 		if (entities.isEmpty()) {
 			return DefaultResponse.onThrow404Response(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value());
 		} else {
@@ -66,9 +63,9 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 	@Override
 	public ResponseEntity<DefaultResponse<T>> findAllPaginationSizePageOrderBy(Integer size, Integer page,
 			String orderBy) {
-		Sort sort = Sort.by(Sort.Direction.ASC, orderBy);
-		PageRequest pageable = PageRequest.of(page, size, sort);
-		Page<T> entities = repository.findAll(pageable);
+		var sort = Sort.by(Sort.Direction.ASC, orderBy);
+		var pageable = PageRequest.of(page, size, sort);
+		var entities = repository.findAll(pageable);
 		if (entities.isEmpty()) {
 			return DefaultResponse.onThrow404Response(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value());
 		} else {
@@ -78,14 +75,14 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 	}
 	@Override
 	public Page<T> findAllPaginationSizePageOptionTwo(Integer size, Integer page) {
-		PageRequest pageable = PageRequest.of(page, size);
+		var pageable = PageRequest.of(page, size);
 		return repository.findAll(pageable);
 
 	}
 	/**
-	 * 
+	 *
 	 * Returns the entity with the given id.
-	 * 
+	 *
 	 * @param id the id of the entity to retrieve
 	 * @return a {@link org.springframework.http.ResponseEntity} containing the
 	 *         response of the request. The response will be a
@@ -96,7 +93,7 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 	 */
 	@Override
 	public ResponseEntity<DefaultResponse<T>> findById(ID id) {
-		Optional<T> entity = repository.findById(id);
+		var entity = repository.findById(id);
 		if (entity.isEmpty()) {
 			return DefaultResponse.onThrow404Response(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value());
 		} else {
@@ -111,7 +108,7 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 			return DefaultResponse.onThrow400ResponseBindingResult(bindigResult);
 		}
 		try {
-			T entity = repository.findById(id)
+			var entity = repository.findById(id)
 					.orElseThrow(() -> new EntityNotFoundException(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value()));
 			modelMapper.map(dto, entity);
 			return DefaultResponse.onThrow200Response(List.of(repository.save(entity)));
@@ -129,13 +126,13 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 			return DefaultResponse.onThrow400ResponseTypeInfo(e.getLocalizedMessage());
 		}
 	}
-	
-	
+
+
 
 	/**
-	 * 
+	 *
 	 * Saves a new entity to the database.
-	 * 
+	 *
 	 * @param dto           the DTO that contains the data to create the entity
 	 * @param bindingResult the result of the validation process
 	 * @param entityClass   the class of the entity to create
@@ -154,7 +151,7 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 			return DefaultResponse.onThrow400ResponseBindingResult(bindingResult);
 		}
 		try {
-			T entity = modelMapper.map(dto, entityClass);
+			var entity = modelMapper.map(dto, entityClass);
 
 			return DefaultResponse.onThrow200Response(List.of(repository.save(entity)));
 		} catch (DataIntegrityViolationException e) {
@@ -176,7 +173,7 @@ public abstract class CrudServiceImpl<T, K, ID extends Serializable, R extends J
 	/**
 	 * Updates an existing entity by ID with the provided DTO. If the provided
 	 * BindingResult contains errors, it returns a 400 response with the errors.
-	 * 
+	 *
 	 * @param id            the ID of the entity to update
 	 * @param dto           the DTO containing the updated entity information
 	 * @param bindingResult the binding result to validate the DTO

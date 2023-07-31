@@ -3,7 +3,7 @@ package com.sena.inventarioback.controllers;
 import java.util.List;
 
 import javax.security.auth.login.AccountNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +21,6 @@ import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.interfaces.IUserService;
 import com.sena.inventarioback.models.User;
 import com.sena.inventarioback.utils.response.DefaultResponse;
-import com.sena.inventarioback.utils.response.ObjectResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +50,7 @@ public class UserController {
 
 	@GetMapping("general2")
 	public ResponseEntity<DefaultResponse<User>> findAll2() {
-		return iUserService.test();
+		return  iUserService.test();
 	}
 
 	// EndPoint
@@ -90,9 +89,9 @@ public class UserController {
 			throws AccountNotFoundException {
 		return iUserService.login(username, password);
 	}
-	
-	
-	
+
+
+
 
 	// EndPoint
 	@GetMapping("integration")
@@ -100,7 +99,7 @@ public class UserController {
 		log.info("starting transaction");
 		return iUserService.onConcurrentEndPoint();
 	}
-	
+
 
 	// EndPoint
 	@GetMapping("integration2")

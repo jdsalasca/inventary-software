@@ -1,11 +1,9 @@
 package com.sena.inventarioback.services;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -13,7 +11,6 @@ import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
@@ -27,12 +24,9 @@ import com.sena.inventarioback.models.User;
 import com.sena.inventarioback.repositories.UserRepository;
 import com.sena.inventarioback.utils.crud.CrudServiceImpl;
 import com.sena.inventarioback.utils.response.DefaultResponse;
-import com.sena.inventarioback.utils.response.DefaultResponse.MESSAGETYPES;
-import com.sena.inventarioback.utils.response.ObjectResponse;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @Service
 @Component
@@ -64,13 +58,13 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 
 	@Override
 	public Boolean login(String userName, String password) throws AccountNotFoundException {
-	    Optional<User> userOptional = userRepository.findByUserName(userName);
+	    var userOptional = userRepository.findByUserName(userName);
 	    if (userOptional.isEmpty()) {
 	        throw new AccountNotFoundException("User Not found");
 	    }
 
-	    User user = userOptional.get();
-	    String storedPassword = user.getPassword();
+	    var user = userOptional.get();
+	    var storedPassword = user.getPassword();
 
 	    if (isBCryptEncoded(storedPassword)) {
 	        return BCrypt.checkpw(password, storedPassword);
@@ -79,7 +73,7 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 	        return storedPassword.equals(password);
 	    }
 	}
-	
+
 	// Helper method to check if the password is BCrypt encoded
 	private boolean isBCryptEncoded(String password) {
 	    return password.startsWith("$2a$");
@@ -100,11 +94,10 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 
 	@Override
 	public ResponseEntity<DefaultResponse<User>> findById(Integer id) {
-		User person = userRepository.findById(id).orElse(new User());
+		var person = userRepository.findById(id).orElse(new User());
 		log.warn("Siu");
 		Predicate<User> isOld = personL -> personL.getDocumentNumber().equals(3l);
 		if (isOld.test(person)) {
-			return DefaultResponse.onThrow200Response(Collections.singletonList(person));
 		}
 		return DefaultResponse.onThrow200Response(Collections.singletonList(person));
 	}

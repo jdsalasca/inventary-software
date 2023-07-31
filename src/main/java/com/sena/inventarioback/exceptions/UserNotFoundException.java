@@ -1,9 +1,9 @@
 
 package com.sena.inventarioback.exceptions;
 
-import java.io.IOException;
-
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 /**
 Exception thrown when a user is not found in the People API.
 */
@@ -17,7 +17,7 @@ public class UserNotFoundException extends RuntimeException  {
 	public String getLocalizedMessage() {
 		return this.message;
 	}
-	
-	
+
+
 
 }

@@ -2,7 +2,6 @@ package com.sena.inventarioback.utils.crud;
 
 import java.io.Serializable;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
@@ -63,6 +62,6 @@ public interface ICrudInterface<T, K , ID extends Serializable, L extends JpaRep
     */
     void deleteById(ID id);
 	Page<T> findAllPaginationSizePageOptionTwo(Integer size, Integer page);
-   
-    
+
+
 }
