@@ -54,7 +54,7 @@ public class DigitalDocumentServiceImpl implements IDigitalDocumentService {
 
     @Override
     public void deleteDigitalDocument(Long id) {
-        var existingDocument = digitalDocumentRepository.findById(id)
+    	DigitalDocument existingDocument = digitalDocumentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Digital document not found with id: " + id));
         digitalDocumentRepository.delete(existingDocument);
     }
