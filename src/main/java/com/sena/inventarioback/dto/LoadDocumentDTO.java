@@ -1,5 +1,9 @@
 package com.sena.inventarioback.dto;
 
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,15 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoadDocumentDTO {
-
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
-//    @NotNull(message = "startDate is required")
-//    private LocalDate startDate;
-//
-//    @NotNull(message = "dueDate is required")
-//    @FutureOrPresent(message = "dueDate must be a future or present date")
-//    private LocalDate dueDate;
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private LocalDate startDate;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private LocalDate dueDate;
 
     @NotNull(message = "physicalDocumentId is required")
     private Long physicalDocumentId;

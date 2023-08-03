@@ -62,6 +62,7 @@ public class LoadDocumentServiceImpl implements ILoadDocumentService {
 
 		modelMapper.map(loadDocumentDTO, existingDocument);
 		existingDocument.setUpdatedAt(LocalDateTime.now());
+		existingDocument.setId(id);
 		var updatedDocument = loadDocumentRepository.save(existingDocument);
 		return DefaultResponse.onThrow200Response(modelMapper.map(updatedDocument, LoadDocumentDTO.class));
 	}

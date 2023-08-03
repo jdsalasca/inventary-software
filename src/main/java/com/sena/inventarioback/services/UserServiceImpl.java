@@ -52,6 +52,7 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 			Class<User> entityClass) {
 		dto.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
 		dto.setUpdatedAt(LocalDateTime.now());
+		
 		dto.setPassword(BCrypt.hashpw(dto.getPassword(), BCrypt.gensalt()));
 		return super.update(id, dto, bindigResult, entityClass);
 	}

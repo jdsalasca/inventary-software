@@ -18,7 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data@NoArgsConstructor@AllArgsConstructor
 public class DigitalDocumentDTO {
-
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @NotBlank(message = "Name is required")

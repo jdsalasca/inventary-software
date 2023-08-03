@@ -51,6 +51,7 @@ public class BoxService implements IBoxService {
         var existingBox = boxRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Box not found with id: " + id));
         modelMapper.map(boxDTO, existingBox);
+        existingBox.setId(id);
         var updatedBox = boxRepository.save(existingBox);
         return DefaultResponse.onThrow200Response(modelMapper.map(updatedBox, BoxDTO.class));
     }

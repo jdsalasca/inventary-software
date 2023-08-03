@@ -3,6 +3,8 @@ package com.sena.inventarioback.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,8 +28,10 @@ public class UserDTO {
     @NotNull(message = "dateOfBirthh cannot be null")
     @Past(message = "dateOfBirth must be in the past")
     private LocalDate dateOfBirth;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private LocalDateTime updatedAt;
     @NotNull(message = "gender cannot be null")
     private Integer gender;
     @NotNull(message = "documentType cannot be null")

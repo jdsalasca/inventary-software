@@ -55,6 +55,7 @@ public class PhysicalDocumentServiceImpl implements IPhysicalDocumentService {
                 .orElseThrow(() -> new EntityNotFoundException("Physical document not found with id: " + id));
 
         modelMapper.map(physicalDocumentDTO, existingDocument);
+        existingDocument.setId(id);
         existingDocument.setUpdatedAt(LocalDateTime.now());
         var updatedDocument = physicalDocumentRepository.save(existingDocument);
         return DefaultResponse.onThrow200Response(modelMapper.map(updatedDocument, PhysicalDocumentDTO.class));

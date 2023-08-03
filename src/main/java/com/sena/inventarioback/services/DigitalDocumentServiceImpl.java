@@ -48,6 +48,7 @@ public class DigitalDocumentServiceImpl implements IDigitalDocumentService {
 
         modelMapper.map(digitalDocumentDTO, existingDocument);
         existingDocument.setUpdatedAt(LocalDateTime.now());
+        existingDocument.setId(id);
         var updatedDocument = digitalDocumentRepository.save(existingDocument);
         return DefaultResponse.onThrow200Response(modelMapper.map(updatedDocument, DigitalDocumentDTO.class));
     }

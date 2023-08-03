@@ -44,6 +44,7 @@ public class StatusServiceImpl implements IStatusService {
                 .orElseThrow(() -> new EntityNotFoundException("Status not found with id: " + id));
 
         modelMapper.map(statusDTO, existingStatus);
+        existingStatus.setId(id);
         var updatedStatus = statusRepository.save(existingStatus);
         return DefaultResponse.onThrow200Response(modelMapper.map(updatedStatus, StatusDTO.class));
     }

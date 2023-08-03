@@ -46,6 +46,7 @@ public class DownloadDocumentServiceImpl implements IDownloadDocumentService {
 
         modelMapper.map(downloadDocumentDTO, existingDocument);
         existingDocument.setUpdatedAt(LocalDateTime.now());
+        existingDocument.setId(id);
         var updatedDocument = downloadDocumentRepository.save(existingDocument);
         return DefaultResponse.onThrow200Response(modelMapper.map(updatedDocument, DownloadDocumentDTO.class));
     }
