@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 @EnableScheduling
 @EnableCaching
 @Validated
-//@EnableWebMvc
+@EnableWebMvc
 public class InventarioBackApplication {
 
 	public static void main(String[] args) {
