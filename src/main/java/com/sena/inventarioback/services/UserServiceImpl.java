@@ -25,6 +25,7 @@ import com.sena.inventarioback.repositories.UserRepository;
 import com.sena.inventarioback.utils.crud.CrudServiceImpl;
 import com.sena.inventarioback.utils.response.DefaultResponse;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 
@@ -95,11 +96,8 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 
 	@Override
 	public ResponseEntity<DefaultResponse<User>> findById(Integer id) {
-		var person = userRepository.findById(id).orElse(new User());
-		log.warn("Siu");
-		Predicate<User> isOld = personL -> personL.getDocumentNumber().equals(3l);
-		if (isOld.test(person)) {
-		}
+		var person = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado en el sistema"));
+
 		return DefaultResponse.onThrow200Response(Collections.singletonList(person));
 	}
 
@@ -119,6 +117,12 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 	public ResponseEntity<DefaultResponse<User>> test() {
 		// TODO Auto-generated method stub
 		return DefaultResponse.onThrow200Response(Collections.emptyList());
+	}
+
+	@Override
+	public ResponseEntity<DefaultResponse<UserDTO>> deleteById(Long id) {
+		userRepository.deleteById(Integer.valueOf(id.toString()));
+		return DefaultResponse.onThrow200Response(Collections.emptyList(), "Usuario con id: "+ id+ " Eliminado exitosamente");
 	}
 
 }

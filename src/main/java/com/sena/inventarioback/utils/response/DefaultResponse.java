@@ -188,6 +188,15 @@ public class DefaultResponse<T> {
  	 return new ResponseEntity<>(messageResult, messageResult.catchHttpStatus());
 
   }
+  public static <T> ResponseEntity<DefaultResponse<T>> onThrow200Response(List<T> data, String message) {
+	 	 var messageResult = new DefaultResponse<T>();
+	 	 messageResult.setData(data);
+	 	 messageResult.setStatus(HttpStatus.OK);
+	 	 messageResult.setMessageType(MESSAGETYPES.SUCCESS);
+	 	 messageResult.setMessage(message);
+	 	 return new ResponseEntity<>(messageResult, messageResult.catchHttpStatus());
+
+	  }
 	public static <T> ResponseEntity<DefaultResponse<T>> onThrow200Response(List<T> data, Page<T> page) {
 		var messageResult = new DefaultResponse<T>();
 		messageResult.setData(data);

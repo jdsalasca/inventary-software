@@ -7,6 +7,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,7 +80,6 @@ public class UserController {
 	@PutMapping("/{id}")
 	public ResponseEntity<DefaultResponse<User>> updatePerson(@PathVariable Integer id,
 			@Validated @RequestBody UserDTO personDTO, BindingResult bindingResult) {
-		log.info("user which is performing the operation {}", "not implement yet");
 		return iUserService.update(id, personDTO, bindingResult, User.class);
 	}
 
@@ -88,6 +88,11 @@ public class UserController {
 	public Boolean findByDocumentTypeId(@PathVariable String username, @PathVariable String password)
 			throws AccountNotFoundException {
 		return iUserService.login(username, password);
+	}
+	@DeleteMapping("/{id}")
+	public ResponseEntity<DefaultResponse<UserDTO>> deleteUserById(@PathVariable Long id) {
+		
+		return  iUserService.deleteById(id);
 	}
 
 

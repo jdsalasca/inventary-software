@@ -26,5 +26,7 @@ public interface IUserService extends ICrudInterface<User, UserDTO,  Integer, Us
 
 	Flux<String> onConcurrentEndPoint2();
 
+	ResponseEntity<DefaultResponse<UserDTO>> deleteById(Long id);
+
 
 }

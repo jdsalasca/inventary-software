@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 @Entity
 @Data
+@Table(name = "digital_document")
 @AllArgsConstructor
 @NoArgsConstructor
 public class DigitalDocument {
