@@ -6,6 +6,7 @@ import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.http.ResponseEntity;
 
+import com.sena.inventarioback.dto.UserAccessDto;
 import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.models.User;
 import com.sena.inventarioback.repositories.UserRepository;
@@ -20,7 +21,7 @@ public interface IUserService extends ICrudInterface<User, UserDTO,  Integer, Us
 
 	ResponseEntity<DefaultResponse<User>> test();
 
-	Boolean login(String userName, String password) throws AccountNotFoundException;
+	ResponseEntity<DefaultResponse<UserAccessDto>> login(String userName, String password) throws AccountNotFoundException;
 
 	List<String> onConcurrentEndPoint();
 

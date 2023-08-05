@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sena.inventarioback.dto.UserAccessDto;
 import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.interfaces.IUserService;
 import com.sena.inventarioback.models.User;
@@ -85,7 +86,7 @@ public class UserController {
 
 	// EndPoint
 	@GetMapping("/login/username/{username}/password/{password}")
-	public Boolean findByDocumentTypeId(@PathVariable String username, @PathVariable String password)
+	public ResponseEntity<DefaultResponse<UserAccessDto>> findByDocumentTypeId(@PathVariable String username, @PathVariable String password)
 			throws AccountNotFoundException {
 		return iUserService.login(username, password);
 	}

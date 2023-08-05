@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.sena.inventarioback.dto.UserAccessDto;
 import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.integrations.IPeopleIntegration;
 import com.sena.inventarioback.interfaces.IUserService;
@@ -59,23 +60,24 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 	}
 
 	@Override
-	public Boolean login(String userName, String password) throws AccountNotFoundException {
-	    var userOptional = userRepository.findByUserName(userName);
-	    if (userOptional.isEmpty()) {
-	        throw new AccountNotFoundException("User Not found");
-	    }
+	public ResponseEntity<DefaultResponse<UserAccessDto>> login(String userName, String password) throws AccountNotFoundException {
+	    User user =   userRepository.findByUserName(userName).orElseThrow(() -> new AccountNotFoundException("Usuario no encontrado")) ;
 
-	    var user = userOptional.get();
 	    var storedPassword = user.getPassword();
-
+	    boolean isValid;
+	    
 	    if (isBCryptEncoded(storedPassword)) {
-	        return BCrypt.checkpw(password, storedPassword);
+	    	isValid = BCrypt.checkpw(password, storedPassword);
 	    } else {
 	        // Assuming storedPassword is a raw (plaintext) string
-	        return storedPassword.equals(password);
+	    	isValid = storedPassword.equals(password);
+	    }
+	    if(isValid) {
+	    	return DefaultResponse.onThrow200Response(new UserAccessDto(user, isValid));
+	    }else {
+	    	return DefaultResponse.onThrow400ResponseTypeInfo("Credenciales invalidas");
 	    }
 	}
-
 	// Helper method to check if the password is BCrypt encoded
 	private boolean isBCryptEncoded(String password) {
 	    return password.startsWith("$2a$");
