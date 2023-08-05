@@ -12,7 +12,7 @@ public interface IPhysicalDocumentService {
 
     ResponseEntity<DefaultResponse<PhysicalDocumentDTO>> getPhysicalDocumentById(Long id);
 
-    ResponseEntity<DefaultResponse<Page<PhysicalDocumentDTO>>> getAllPhysicalDocuments(Pageable pageable);
+    ResponseEntity<DefaultResponse<PhysicalDocumentDTO>> getAllPhysicalDocuments(Pageable pageable);
 
     ResponseEntity<DefaultResponse<PhysicalDocumentDTO>> updatePhysicalDocument(Long id, PhysicalDocumentDTO physicalDocumentDTO);
 

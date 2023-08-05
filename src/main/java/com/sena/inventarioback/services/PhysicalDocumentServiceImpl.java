@@ -43,7 +43,7 @@ public class PhysicalDocumentServiceImpl implements IPhysicalDocumentService {
     }
 
     @Override
-    public ResponseEntity<DefaultResponse<Page<PhysicalDocumentDTO>>> getAllPhysicalDocuments(Pageable pageable) {
+    public ResponseEntity<DefaultResponse<PhysicalDocumentDTO>> getAllPhysicalDocuments(Pageable pageable) {
         var physicalDocumentPage = physicalDocumentRepository.findAll(pageable);
         Page<PhysicalDocumentDTO> physicalDocumentDTOPage = physicalDocumentPage.map(doc -> modelMapper.map(doc, PhysicalDocumentDTO.class));
         return DefaultResponse.onThrow200Response(physicalDocumentDTOPage);

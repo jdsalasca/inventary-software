@@ -44,7 +44,7 @@ public class LoadDocumentController {
     }
 
     @GetMapping
-    public ResponseEntity<DefaultResponse<Page<LoadDocumentDTO>>> getAllLoadDocuments(Pageable pageable) {
+    public ResponseEntity<DefaultResponse<LoadDocumentDTO>> getAllLoadDocuments(Pageable pageable) {
         return loadDocumentService.getAllLoadDocuments(pageable);
     }
     @GetMapping("/idStatus/{idStatus}")

@@ -46,7 +46,7 @@ public class PhysicalDocumentController {
 
 
     @GetMapping("/pageable")
-    public ResponseEntity<DefaultResponse<Page<PhysicalDocumentDTO>>> getAllPhysicalDocuments(Pageable pageable) {
+    public ResponseEntity<DefaultResponse<PhysicalDocumentDTO>> getAllPhysicalDocuments(Pageable pageable) {
         return physicalDocumentService.getAllPhysicalDocuments(pageable);
     }
 

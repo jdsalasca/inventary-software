@@ -47,7 +47,7 @@ public class LoadDocumentServiceImpl implements ILoadDocumentService {
 	}
 
 	@Override
-	public ResponseEntity<DefaultResponse<Page<LoadDocumentDTO>>> getAllLoadDocuments(Pageable pageable) {
+	public ResponseEntity<DefaultResponse<LoadDocumentDTO>> getAllLoadDocuments(Pageable pageable) {
 		var loadDocumentPage = loadDocumentRepository.findAll(pageable);
 		Page<LoadDocumentDTO> loadDocumentDTOPage = loadDocumentPage
 				.map(doc -> modelMapper.map(doc, LoadDocumentDTO.class));

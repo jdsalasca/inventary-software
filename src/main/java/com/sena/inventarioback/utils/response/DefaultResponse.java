@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -207,6 +209,32 @@ public class DefaultResponse<T> {
 		return new ResponseEntity<>(messageResult, messageResult.catchHttpStatus());
 
 	}
+	 @SafeVarargs
+	public static <T> ResponseEntity<DefaultResponse<T>> onThrow200Response( Page<T> page, T ...objects) {
+		var messageResult = new DefaultResponse<T>();
+	 	List<T> data = objects != null && objects.length > 0 ? Arrays.asList(objects) : Collections.emptyList();
+
+		messageResult.setData(data);
+		messageResult.setStatus(HttpStatus.OK);
+		messageResult.setMessageType(MESSAGETYPES.SUCCESS);
+		messageResult.setMessage(DEFAULTMESSAGES.SUCCESS_MESSAGE.value());
+		messageResult.setPageableInformation(page);
+		return new ResponseEntity<>(messageResult, messageResult.catchHttpStatus());
+
+	}
+	public static <T> ResponseEntity<DefaultResponse<T>> onThrow200Response( Page<T> page) {
+		var messageResult = new DefaultResponse<T>();
+
+		messageResult.setData(page.getContent());
+		messageResult.setStatus(HttpStatus.OK);
+		messageResult.setMessageType(MESSAGETYPES.SUCCESS);
+		messageResult.setMessage(DEFAULTMESSAGES.SUCCESS_MESSAGE.value());
+		messageResult.setPageableInformation(page);
+		return new ResponseEntity<>(messageResult, messageResult.catchHttpStatus());
+
+	}
+	
+
 
   @SafeVarargs
   public static <T> ResponseEntity<DefaultResponse<T>> onThrow200Response(T ... objects) {
@@ -236,6 +264,14 @@ public class DefaultResponse<T> {
  	 }
  	 return onThrow404Response(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value());
   }
+  public static <T> ResponseEntity<DefaultResponse<T>> onHandlerFindJpa(Page<T> data) {
+	 	 if (data.iterator().hasNext()) {
+	 		 return onThrow200Response(data);
+	 	 }
+	 	 return onThrow404Response(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value());
+	  }
+	  
+  
   @SafeVarargs
   public static <T> ResponseEntity<DefaultResponse<T>> onHandlerFindJpa(T ...data) {
  	 if (data !=null &&data.length> 0) {
@@ -243,6 +279,15 @@ public class DefaultResponse<T> {
  	 }
  	 return onThrow404Response(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value());
   }
+  @SafeVarargs
+  public static <T> ResponseEntity<DefaultResponse<T>> onHandlerFindJpa(Page<T> pageable, T ...data) {
+ 	 if (data !=null &&data.length> 0) {
+ 		
+ 		 return onThrow200Response(pageable, data);
+ 	 }
+ 	 return onThrow404Response(DEFAULTMESSAGES.NOT_INFO_FOUND_MESSAGE.value());
+  }
+
 
 
   public static <T>ResponseEntity<DefaultResponse<T>> onThrow200ResponseListMessage(List<T> data, List<Message> messages) {

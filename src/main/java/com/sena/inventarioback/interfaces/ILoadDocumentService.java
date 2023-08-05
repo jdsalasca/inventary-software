@@ -10,7 +10,7 @@ public interface ILoadDocumentService {
 
     ResponseEntity<DefaultResponse<LoadDocumentDTO>> getLoadDocumentById(Long id);
 
-    ResponseEntity<DefaultResponse<Page<LoadDocumentDTO>>> getAllLoadDocuments(Pageable pageable);
+    ResponseEntity<DefaultResponse<LoadDocumentDTO>> getAllLoadDocuments(Pageable pageable);
 
     ResponseEntity<DefaultResponse<LoadDocumentDTO>> updateLoadDocument(Long id, LoadDocumentDTO loadDocumentDTO);
 
