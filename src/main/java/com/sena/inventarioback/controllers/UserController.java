@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sena.inventarioback.dto.GeneralResourcesDTO;
 import com.sena.inventarioback.dto.UserAccessDto;
 import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.interfaces.IUserService;
@@ -48,6 +49,11 @@ public class UserController {
 	@GetMapping("general")
 	public ResponseEntity<DefaultResponse<User>> findAll() {
 		return iUserService.findAll();
+	}
+	
+	@GetMapping("general-resources")
+	public ResponseEntity<DefaultResponse<GeneralResourcesDTO>> findAllGeneralResources() {
+		return iUserService.findAllGeneralResources();
 	}
 
 	@GetMapping("general2")

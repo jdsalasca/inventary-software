@@ -17,11 +17,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.sena.inventarioback.dto.GeneralResourcesDTO;
 import com.sena.inventarioback.dto.UserAccessDto;
 import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.integrations.IPeopleIntegration;
 import com.sena.inventarioback.interfaces.IUserService;
+import com.sena.inventarioback.models.DocumentType;
 import com.sena.inventarioback.models.User;
+import com.sena.inventarioback.repositories.DocumentTypeRepository;
+import com.sena.inventarioback.repositories.GenderRepository;
+import com.sena.inventarioback.repositories.StatusRepository;
 import com.sena.inventarioback.repositories.UserRepository;
 import com.sena.inventarioback.utils.crud.CrudServiceImpl;
 import com.sena.inventarioback.utils.response.DefaultResponse;
@@ -37,6 +42,12 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 		implements IUserService {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private GenderRepository genderRepository;
+	@Autowired
+	private DocumentTypeRepository documentTypeRepository;
+	@Autowired
+	private StatusRepository statusRepository;
 	@Autowired
 	private IPeopleIntegration iPeopleIntegration;
 
@@ -125,6 +136,16 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 	public ResponseEntity<DefaultResponse<UserDTO>> deleteById(Long id) {
 		userRepository.deleteById(Integer.valueOf(id.toString()));
 		return DefaultResponse.onThrow200Response(Collections.emptyList(), "Usuario con id: "+ id+ " Eliminado exitosamente");
+	}
+
+	@Override
+	@Cacheable("general-resources")
+	public ResponseEntity<DefaultResponse<GeneralResourcesDTO>> findAllGeneralResources() {
+		log.info("cacheando request pesada");
+		return DefaultResponse.onHandlerFindJpa(new GeneralResourcesDTO(genderRepository.findAll(),
+				 statusRepository.findAll(),
+				 documentTypeRepository.findAll()
+				) );
 	}
 
 }

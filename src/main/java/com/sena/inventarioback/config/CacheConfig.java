@@ -35,7 +35,7 @@ public class CacheConfig {
         cacheManager.setCaffeine(caffeineCacheBuilder());
         //cacheManager.setCaffeineSpec(caffeineSpecs());
 
-        cacheManager.setCacheNames(Arrays.asList("allgenders", "alldocumentstypes", "allpeople", "status"));
+        cacheManager.setCacheNames(Arrays.asList("allgenders", "alldocumentstypes", "allpeople", "status", "general-resources"));
         log.info("ready to deploy cache with entries {}", cacheManager.getCacheNames());
 
         return cacheManager;

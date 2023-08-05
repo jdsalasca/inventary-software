@@ -6,6 +6,7 @@ import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.http.ResponseEntity;
 
+import com.sena.inventarioback.dto.GeneralResourcesDTO;
 import com.sena.inventarioback.dto.UserAccessDto;
 import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.models.User;
@@ -28,6 +29,8 @@ public interface IUserService extends ICrudInterface<User, UserDTO,  Integer, Us
 	Flux<String> onConcurrentEndPoint2();
 
 	ResponseEntity<DefaultResponse<UserDTO>> deleteById(Long id);
+
+	ResponseEntity<DefaultResponse<GeneralResourcesDTO>> findAllGeneralResources();
 
 
 }
