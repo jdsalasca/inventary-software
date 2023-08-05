@@ -38,6 +38,8 @@ public class UserDTO {
     private Integer documentType;
     @NotNull(message = "Status cannot be null")
     private Integer status;
+    @NotNull(message = "areaId cannot be null")
+    private Integer areaId;
     @NotBlank(message = "documentNumber cannot be blank")
     private String documentNumber;
     @NotBlank(message = "password cannot be blank")

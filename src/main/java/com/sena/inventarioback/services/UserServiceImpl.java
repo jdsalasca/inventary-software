@@ -22,8 +22,10 @@ import com.sena.inventarioback.dto.UserAccessDto;
 import com.sena.inventarioback.dto.UserDTO;
 import com.sena.inventarioback.integrations.IPeopleIntegration;
 import com.sena.inventarioback.interfaces.IUserService;
+import com.sena.inventarioback.models.Area;
 import com.sena.inventarioback.models.DocumentType;
 import com.sena.inventarioback.models.User;
+import com.sena.inventarioback.repositories.AreaRepository;
 import com.sena.inventarioback.repositories.DocumentTypeRepository;
 import com.sena.inventarioback.repositories.GenderRepository;
 import com.sena.inventarioback.repositories.StatusRepository;
@@ -44,6 +46,8 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 	private UserRepository userRepository;
 	@Autowired
 	private GenderRepository genderRepository;
+	@Autowired
+	private AreaRepository areaRepository;
 	@Autowired
 	private DocumentTypeRepository documentTypeRepository;
 	@Autowired
@@ -73,7 +77,7 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 	@Override
 	public ResponseEntity<DefaultResponse<UserAccessDto>> login(String userName, String password) throws AccountNotFoundException {
 	    User user =   userRepository.findByUserName(userName).orElseThrow(() -> new AccountNotFoundException("Usuario no encontrado")) ;
-
+	    Area  area = areaRepository.findById(user.getAreaId()).orElseThrow(()-> new EntityNotFoundException("Area no encontrada"));
 	    var storedPassword = user.getPassword();
 	    boolean isValid;
 	    
@@ -84,7 +88,7 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 	    	isValid = storedPassword.equals(password);
 	    }
 	    if(isValid) {
-	    	return DefaultResponse.onThrow200Response(new UserAccessDto(user, isValid));
+	    	return DefaultResponse.onThrow200Response(new UserAccessDto(user, isValid, area.getName()));
 	    }else {
 	    	return DefaultResponse.onThrow400ResponseTypeInfo("Credenciales invalidas");
 	    }
@@ -144,7 +148,8 @@ public class UserServiceImpl extends CrudServiceImpl<User, UserDTO, Integer, Use
 		log.info("cacheando request pesada");
 		return DefaultResponse.onHandlerFindJpa(new GeneralResourcesDTO(genderRepository.findAll(),
 				 statusRepository.findAll(),
-				 documentTypeRepository.findAll()
+				 documentTypeRepository.findAll(),
+				 areaRepository.findAll()
 				) );
 	}
 

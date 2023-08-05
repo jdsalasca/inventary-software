@@ -40,6 +40,8 @@ public class User {
 	private Integer gender;
 	@Column(name = "document_type_id", nullable = false)
 	private Integer documentType;
+	@Column(name = "area_id", nullable = false)
+	private Integer areaId;
 	@Column(name = "status_id", nullable = false)
 	private Integer status;
 	@Column(name = "document_number", nullable = false)
